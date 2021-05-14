@@ -416,6 +416,16 @@ std::string CBLAuthDelegate::getAuthToken() {
     return m_accessToken;
 }
 
+void CBLAuthDelegate::setInputRefreshToken(const std::string& token) {
+    ACSDK_DEBUG0(LX("setInputRefreshToken").sensitive("token", token));
+
+    printf("setInputRefreshToken");
+    std::lock_guard<std::mutex> lock(m_mutex);
+    if (token.empty() == false) {
+        setRefreshToken(token);
+    }
+}
+
 void CBLAuthDelegate::onAuthFailure(const std::string& token) {
     ACSDK_DEBUG0(LX("onAuthFailure").sensitive("token", token));
 
@@ -521,6 +531,8 @@ void CBLAuthDelegate::handleAuthorizationFlow() {
 CBLAuthDelegate::FlowState CBLAuthDelegate::handleStarting() {
     ACSDK_DEBUG5(LX("handleStarting"));
 
+    printf("handleStarting");
+    printf("getRefreshToken");
     if (m_storage->getRefreshToken(&m_refreshToken)) {
         return FlowState::REFRESHING_TOKEN;
     }
@@ -888,6 +900,8 @@ void CBLAuthDelegate::setAuthError(AuthObserverInterface::Error authError) {
 
 void CBLAuthDelegate::setRefreshToken(const std::string& refreshToken) {
     ACSDK_DEBUG5(LX("setRefreshToken").sensitive("refreshToken", refreshToken));
+
+    printf("Persist refresh token %s\n", refreshToken.c_str());
 
     m_refreshToken = refreshToken;
     if (!m_storage->setRefreshToken(refreshToken)) {

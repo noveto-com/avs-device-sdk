@@ -124,6 +124,7 @@ public:
     void addAuthObserver(std::shared_ptr<avsCommon::sdkInterfaces::AuthObserverInterface> observer) override;
     void removeAuthObserver(std::shared_ptr<avsCommon::sdkInterfaces::AuthObserverInterface> observer) override;
     std::string getAuthToken() override;
+    void setInputRefreshToken(const std::string& token);
     void onAuthFailure(const std::string& token) override;
     /// @}
 

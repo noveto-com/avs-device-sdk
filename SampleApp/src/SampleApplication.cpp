@@ -668,10 +668,11 @@ std::unique_ptr<SampleApplication> SampleApplication::create(
     std::shared_ptr<alexaClientSDK::sampleApp::ConsoleReader> consoleReader,
     const std::vector<std::string>& configFiles,
     const std::string& pathToInputFolder,
+    const std::string& refreshToken,
     const std::string& logLevel,
     std::shared_ptr<avsCommon::sdkInterfaces::diagnostics::DiagnosticsInterface> diagnostics) {
     auto clientApplication = std::unique_ptr<SampleApplication>(new SampleApplication);
-    if (!clientApplication->initialize(consoleReader, configFiles, pathToInputFolder, logLevel, diagnostics)) {
+    if (!clientApplication->initialize(consoleReader, configFiles, pathToInputFolder, refreshToken, logLevel, diagnostics)) {
         ACSDK_CRITICAL(LX("Failed to initialize SampleApplication"));
         return nullptr;
     }
@@ -756,6 +757,7 @@ bool SampleApplication::initialize(
     std::shared_ptr<alexaClientSDK::sampleApp::ConsoleReader> consoleReader,
     const std::vector<std::string>& configFiles,
     const std::string& pathToInputFolder,
+    const std::string& refreshToken,
     const std::string& logLevel,
     std::shared_ptr<avsCommon::sdkInterfaces::diagnostics::DiagnosticsInterface> diagnostics) {
     avsCommon::utils::logger::Level logLevelValue = avsCommon::utils::logger::Level::UNKNOWN;
@@ -1099,6 +1101,10 @@ bool SampleApplication::initialize(
         ACSDK_CRITICAL(LX("Creation of AuthDelegate failed!"));
         return false;
     }
+
+    printf("Set refreshToken %s\n", refreshToken.c_str());
+
+    authDelegate->setInputRefreshToken(refreshToken);
 
     /*
      * Creating the CapabilitiesDelegate - This component provides the client with the ability to send messages to the
