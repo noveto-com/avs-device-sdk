@@ -75,6 +75,7 @@ public:
         std::shared_ptr<alexaClientSDK::sampleApp::ConsoleReader> consoleReader,
         const std::vector<std::string>& configFiles,
         const std::string& pathToInputFolder,
+        const std::string& refreshToken,
         const std::string& logLevel = "",
         std::shared_ptr<avsCommon::sdkInterfaces::diagnostics::DiagnosticsInterface> diagnostics = nullptr);
 
@@ -151,6 +152,7 @@ private:
         std::shared_ptr<alexaClientSDK::sampleApp::ConsoleReader> consoleReader,
         const std::vector<std::string>& configFiles,
         const std::string& pathToInputFolder,
+        const std::string& refreshToken,
         const std::string& logLevel,
         std::shared_ptr<avsCommon::sdkInterfaces::diagnostics::DiagnosticsInterface> diagnostics);
 

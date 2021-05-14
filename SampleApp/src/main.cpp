@@ -54,6 +54,7 @@ bool usesOptStyleArgs(int argc, char* argv[]) {
 int main(int argc, char* argv[]) {
     std::vector<std::string> configFiles;
     std::string pathToKWDInputFolder;
+    std::string refreshToken;
     std::string logLevel;
 
     if (usesOptStyleArgs(argc, argv)) {
@@ -86,25 +87,29 @@ int main(int argc, char* argv[]) {
         }
     } else {
 #if defined(KWD_KITTAI) || defined(KWD_SENSORY)
-        if (argc < 3) {
+        if (argc < 4) {
             ConsolePrinter::simplePrint(
                 "USAGE: " + std::string(argv[0]) +
-                " <path_to_AlexaClientSDKConfig.json> <path_to_inputs_folder> [log_level]");
+                " <path_to_AlexaClientSDKConfig.json> <refresh token> <path_to_inputs_folder> [log_level]");
             return SampleAppReturnCode::ERROR;
         } else {
-            pathToKWDInputFolder = std::string(argv[2]);
+            refreshToken = std::string(argv[2]);
+            pathToKWDInputFolder = std::string(argv[3]);
             if (4 == argc) {
                 logLevel = std::string(argv[3]);
             }
         }
 #else
-        if (argc < 2) {
+        if (argc < 3) {
             ConsolePrinter::simplePrint(
-                "USAGE: " + std::string(argv[0]) + " <path_to_AlexaClientSDKConfig.json> [log_level]");
+                "USAGE: " + std::string(argv[0]) + " <path_to_AlexaClientSDKConfig.json> <refresh token> [log_level]");
             return SampleAppReturnCode::ERROR;
         }
-        if (3 == argc) {
-            logLevel = std::string(argv[2]);
+        refreshToken = std::string(argv[2]);
+        print("ARGV[2] = %s\n", argv[2]);
+
+        if (4 == argc) {
+            logLevel = std::string(argv[3]);
         }
 #endif
 
@@ -129,6 +134,7 @@ int main(int argc, char* argv[]) {
             consoleReader,
             configFiles,
             pathToKWDInputFolder,
+            refreshToken,
             logLevel
 #ifdef DIAGNOSTICS
             ,

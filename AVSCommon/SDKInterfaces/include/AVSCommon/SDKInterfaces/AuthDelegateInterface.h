@@ -68,6 +68,8 @@ public:
      */
     virtual std::string getAuthToken() = 0;
 
+    virtual void setInputRefreshToken(const std::string& token) = 0; 
+
     /**
      * Receive notification that an operation using the specified auth token experienced an authorization failure.
      *
